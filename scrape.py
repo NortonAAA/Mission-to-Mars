@@ -22,7 +22,7 @@ def scrape_all():
         "last_modified": dt.datetime.now(),
         "hemispheres": hemi_links(browser)
     }
-
+    
     # Stop webdriver and return data
     browser.quit()
     return data
