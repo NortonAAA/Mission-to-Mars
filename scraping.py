@@ -22,7 +22,7 @@ def scrape_all():
         "last_modified": dt.datetime.now(),
         "hemispheres": hemi_links(browser)
     }
-    
+    print(data)
     # Stop webdriver and return data
     browser.quit()
     return data
@@ -111,7 +111,7 @@ def hemi_links(browser):
     # 3. Write code to retrieve the image urls and titles for each hemisphere.
     thumbnail_urls = len(img_soup.find_all('div', class_='description'))
     for i in range(thumbnail_urls):
-        info = {}
+        hemispheres = {}
       
         thumbnail_url = img_soup.select('div.description a')[i].get('href')
 
@@ -122,15 +122,15 @@ def hemi_links(browser):
         html = browser.html
         img_soup2 = soup(html, 'html.parser')
         # Find JPG link and add to main
-        jpg_url = img_soup2.select_one('a', text='Sample').get('href')
+        jpg_url = img_soup2.find('a', string='Sample').get('href')
         img_url = f"https://marshemispheres.com/{jpg_url}"
         title = img_soup2.select_one('h2').get_text()
     
-        info = {
+        hemispheres = {
             'img_url':img_url,
             'title':title}
         #append info dictionary to hemispheres urls list
-        hemisphere_image_urls.append(info)
+        hemisphere_image_urls.append(hemispheres)
         # return to homepage to start loop again
         browser.visit(url)
     return hemisphere_image_urls
